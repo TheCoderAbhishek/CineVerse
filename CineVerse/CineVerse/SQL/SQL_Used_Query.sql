@@ -1,0 +1,7 @@
+SELECT TOP (10) [Id]
+      ,[MovieName]
+      ,[Director]
+      ,[ReleaseDate]
+      ,[Description]
+      ,[Photo]
+  FROM [CineVerseDB].[dbo].[Movies]
