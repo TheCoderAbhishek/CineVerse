@@ -84,7 +84,7 @@ namespace CineVerse.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MovieName,Director,ReleaseDate,Description,Photo")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MovieName,Director,ReleaseDate,Description,Photo")] Movie movie, IFormFile? photoFile)
         {
             if (id != movie.Id)
             {
@@ -95,6 +95,14 @@ namespace CineVerse.Controllers
             {
                 try
                 {
+                    if (photoFile != null && photoFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await photoFile.CopyToAsync(memoryStream);
+                            movie.Photo = memoryStream.ToArray();
+                        }
+                    }
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
